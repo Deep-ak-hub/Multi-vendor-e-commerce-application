@@ -72,18 +72,21 @@ class CloudinaryService {
 
   async multiplefileUpload(files, dir = null, size = "1024 * 1024") {
     try {
-      let uploadFiles = [];
       if (files && files.length) {
+        let uploadFiles = [];
         files.map((file) => {
           uploadFiles.push(this.singleFileUpload(file.path, dir, size));
         });
+        // console.log("hello");
+
+        
 
         const settlement = await Promise.allSettled(uploadFiles);
 
         let returnFiles = [];
-        settlement.forEach((uploadFile) => {
-          if (uploadFile.status === "fulfilled") {
-            returnFiles.push(uploadFile.value);
+        settlement.forEach((uploadedFile) => {
+          if (uploadedFile.status === "fulfilled") {
+            returnFiles.push(uploadedFile.value);
           }
         });
         return returnFiles;

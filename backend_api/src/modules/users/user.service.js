@@ -1,4 +1,5 @@
 const { UserRoles } = require("../../config/constants");
+const { getPagination } = require("../../utilites/pagination");
 const UserModel = require("./user.model");
 
 class UserService {
@@ -59,9 +60,7 @@ class UserService {
 
   async getAllRowsByFilter(filter, query) {
     try {
-      const page = +query.page || 1
-      const limit = +query.limit || 10
-      const skip = (page-1) * limit
+      const {page, limit, skip} = getPagination(query)
 
       const data = await UserModel.find(filter)
         .sort({createdAt: "desc"})

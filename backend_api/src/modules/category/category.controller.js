@@ -40,8 +40,8 @@ class CategoryController {
   }
 
   async getCategoryById(req, res, next) {
-    const {id} = req.params
     try {
+      const {id} = req.params
       const categoryDetail = await categoryService.validateCategoryDetail(id, req.loggedInUser)
       res.json({
         data: categoryDetail,

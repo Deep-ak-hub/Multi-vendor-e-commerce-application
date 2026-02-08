@@ -54,10 +54,7 @@ class BrandController {
 
   getBrandById = async (req, res, next) => {
     try {
-      const id = req.params.id;
-      const brandDetails = await brandService.getSingleRowByFilter({
-        _id: id,
-      });
+      const brandDetails = await brandService.validateBrandDetail(req.params.id, req.loggedInUser);
 
       if (!brandDetails) {
         throw {
