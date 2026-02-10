@@ -14,6 +14,8 @@ productsRouter.get("/", loginCheck([UserRoles.ADMIN, UserRoles.SELLER]), product
 
 productsRouter.get("/:id", loginCheck([UserRoles.ADMIN, UserRoles.SELLER]), productsController.getProductsById)
 
+productsRouter.get("/public/:id", productsController.getPublicProductsById)
+
 productsRouter.put("/:id", loginCheck([UserRoles.ADMIN, UserRoles.SELLER]), uploader().single('images'), validateBodyData(UpdateProductDTO), productsController.updateProductsById)
 
 productsRouter.delete("/:id", loginCheck([UserRoles.ADMIN, UserRoles.SELLER]), productsController.deleteProductById)

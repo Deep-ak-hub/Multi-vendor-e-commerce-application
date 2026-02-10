@@ -3,6 +3,8 @@ const { cloudinaryService } = require("../../services/cloudinary.service");
 const ProductModel = require("./products.model");
 const { UserRoles } = require("../../config/constants");
 const { getPagination } = require("../../utilites/pagination");
+const redisService = require("../../services/redis.service");
+const generateCachedKey = require("../../utilites/cacheKey")
 
 class ProductService {
   async transformToProductData(req) {
@@ -49,6 +51,9 @@ class ProductService {
     try {
         let product = new ProductModel(data)
         product = await product.save()
+
+        // invalidate product listing cache
+        await redisService.deleteByPattern("products:home:*")
         return await this.getSingleRowByFilter({_id: product._id})
     } catch (exception) {
         throw exception
@@ -85,10 +90,10 @@ class ProductService {
 
       if(data.price !== undefined) {
         data.price = data.price * 100
-        data.afterDicount = data.price - (data.price * data.discount)/100
+        data.afterDiscount = data.price - (data.price * data.discount)/100
       } else {
         data.price = oldProduct.price
-        data.afterDicount = oldProduct.afterDicount
+        data.afterDiscount = oldProduct.afterDiscount
       }
 
       data.images = oldProduct.images
@@ -110,19 +115,37 @@ class ProductService {
     try {
       const{page, limit, skip} = getPagination(query)
 
+      // it gives the unique cache key which is hashed
+      // generate cache key
+      const cacheKey = generateCachedKey("products:home", {filter, sort, page, limit})
+      // OR const cacheKey = `products:home:$JSON.stringify({filter, sort, page, limit})`
+   
+      // check redis
+      const cachedData = await redisService.getCache(cacheKey)
+      
+      // if exists
+      if(cachedData) {
+        console.log("data from redis:");
+        return cachedData
+      }
+
+      // if donot exist mongodb query and
       const data = await ProductModel.find(filter)
         .populate("brand",['_id','name','slug','image','parent','brands','status'])
         .populate("category",['_id','name','slug','image','parent','brands','status'])
         .populate("seller",['_id','name','role','image','status','email'])
         .populate("createdBy",['_id','name','role','image','status','email'])
         .populate("updatedBy",['_id','name','role','image','status','email'])
+        .lean()
         .sort(sort)
         .skip(skip)
         .limit(limit)
       
+      console.log("data from mongodb");
+      
       const count = await ProductModel.countDocuments(filter)
 
-      return {
+      const response = {
         data,
         pagination: {
           page: page,
@@ -131,6 +154,11 @@ class ProductService {
           totalPages: Math.ceil(count/limit)
         }
       }
+
+      // then store result in redis
+      await redisService.setCache(cacheKey, response, 300)
+      
+      return response
     } catch (exception) {
         throw exception
     }
@@ -167,7 +195,11 @@ class ProductService {
   async updateProduct(data, filter) {
     try {
       const updatedProduct = await ProductModel.findOneAndUpdate(filter, {$set: data}, {new: true})
-    return updatedProduct
+
+      if(updatedProduct) {
+        await this.invalidateProductCache()
+      }
+      return updatedProduct
     } catch (exception) {
       throw exception
     }
@@ -175,7 +207,11 @@ class ProductService {
 
   async deleteProductByFilter(filter) {
     try {
-      return ProductModel.findOneAndDelete(filter)
+      const deletedProduct = await ProductModel.findOneAndDelete(filter)
+
+      if(deletedProduct) {
+        await this.invalidateProductCache()
+      }
     } catch (exception) {
       throw exception
     }
@@ -183,16 +219,39 @@ class ProductService {
 
   async getSingleRowByFilter(filter) {
     try {
+      const cacheKey = generateCachedKey("product:details", filter)
+
+      const cachedData = await redisService.getCache(cacheKey)
+
+        if(cachedData) {
+          console.log("product detail from redis");
+          return cachedData
+        }
+
         const productDetails = await ProductModel.findOne(filter)
             .populate("brand",['_id','name','slug','image','parent','brands','status'])
             .populate("category",['_id','name','slug','image','parent','brands','status'])
             .populate("seller",['_id','name','role','image','status','email'])
-            .populate("createdBy",['_id','name','role','image','statis','email'])
-            .populate("updatedBy",['_id','name','role','image','statis','email'])
+            .populate("createdBy",['_id','name','role','image','status','email'])
+            .populate("updatedBy",['_id','name','role','image','status','email'])
+            .lean()
+
+        if(!productDetails) {
+          return null
+        }
+
+        console.log("Product detail form mongodb");
+        
+        await redisService.setCache(cacheKey, productDetails, 600)
         return productDetails
     } catch (exception) {
         throw exception
     }
+  }
+
+  async invalidateProductCache() {
+    await redisService.deleteByPattern("product:details:*")
+    await redisService.deleteByPattern("products:home:*")
   }
 
 }

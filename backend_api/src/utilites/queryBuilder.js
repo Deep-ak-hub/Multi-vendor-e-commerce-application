@@ -88,6 +88,27 @@ class QueryBuilder {
 
     return {filter, sort}
   }
+
+  getAllUsersQuery(req) {
+    const loggedInUser = req.loggedInUser
+    let filter = {
+        _id: {$ne: loggedInUser._id}
+    }
+
+    if(req.query.role) {
+        filter.role = req.query.role
+    }
+
+    if(req.query.search) {
+        filter.$or = [
+            {name: new RegExp(req.query.search, "i")},
+            {email: new RegExp(req.query.search, "i")},
+            {phone: new RegExp(req.query.search, "i")}
+        ]
+    }
+
+    return filter
+  }
 }
 
 const queryBuilder = new QueryBuilder();

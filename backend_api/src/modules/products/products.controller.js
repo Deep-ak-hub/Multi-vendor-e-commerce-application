@@ -83,6 +83,31 @@ class ProductsController {
     }
   }
 
+  async getPublicProductsById(req, res, next) {
+    try {
+      const {id} = req.params
+
+      const filter = {_id: id, status: Status.ACTIVE}
+
+      const productDetails = await productService.getSingleRowByFilter(filter)
+
+      if(!productDetails) {
+        return res.status(404).json({
+          message: "Product not found",
+          status: "PRODUCT_NOT_FOUND"
+        })
+      }
+
+      res.json({
+        data: productDetails,
+        message: "Product fetched Successfully",
+        status: "PRODUCT_DETAILS"
+      })
+    } catch (exception) {
+      throw exception
+    }
+  }
+
   async updateProductsById(req, res, next) {
     try {
       const productDetails = await productService.validateProductDetail(

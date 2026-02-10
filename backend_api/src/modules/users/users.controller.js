@@ -1,30 +1,10 @@
+const queryBuilder = require("../../utilites/queryBuilder");
 const { userService } = require("./user.service");
 
 class UsersController {
   async getAllUsers(req, res, next) {
     try {
-      const loggedInUser = req.loggedInUser;
-      let filter = {
-        _id: { $ne: loggedInUser._id },
-      };
-
-      if (req.query.role) {
-        filter = {
-          ...filter,
-          role: req.query.role,
-        };
-      }
-
-      if (req.query.search) {
-        filter = {
-          ...filter,
-          $or: [
-            { name: new RegExp(req.query.search, "i") },
-            { email: new RegExp(req.query.search, "i") },
-            { phone: new RegExp(req.query.search, "i") },
-          ],
-        };
-      }
+      const filter = queryBuilder.getAllUsersQuery(req)
 
       // paginaton, limit, page
       const { data, pagination } = await userService.getAllRowsByFilter(
