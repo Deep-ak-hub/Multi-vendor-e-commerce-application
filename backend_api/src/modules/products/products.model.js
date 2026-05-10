@@ -20,6 +20,10 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    hasVariants: {
+      type: Boolean,
+      default: false
+    },
     price: {
       type: Number,
       min: 1000,

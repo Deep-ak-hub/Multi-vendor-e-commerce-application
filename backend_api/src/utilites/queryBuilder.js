@@ -109,6 +109,39 @@ class QueryBuilder {
 
     return filter
   }
+
+  getAllVariantsQuery(req) {
+    const query = req.query
+
+    let filter = {}
+    const sort ={createdAt: -1}
+
+    if(query.product) {
+      filter.product = query.product
+    }
+
+    if(query.status) {
+      filter.status = query.status
+    }
+
+    if(query.minPrice || query.maxPrice) {
+      filter.price = {}
+
+      if(query.minPrice) {
+        filter.price.$gte = Number(query.minPrice) * 100
+      }
+
+      if(query.maxPrice) {
+        filter.price.$lte = Number(query.maxPrice) * 100
+      }
+
+      if(query.inStock) {
+        filter.stock = {$gt: 0}
+      }
+
+      return {filter, sort}
+    }
+  }
 }
 
 const queryBuilder = new QueryBuilder();

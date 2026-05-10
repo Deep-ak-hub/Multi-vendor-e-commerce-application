@@ -9,33 +9,42 @@ const express = require("express");
  */
 const router = require("./router.config.js");
 const ErrorHandler = require("../middlewares/error-handling.middleware.js");
-const app = express();
+const cors = require("cors");
+const { AppConfig } = require("./config.js");
 
+const app = express();
+console.log(AppConfig.frontendURL);
+
+app.use(
+  cors({
+    origin: [AppConfig.frontendURL, "*"],
+  }),
+);
 
 // Parser
 app.use(
   express.json({
     limit: "5mb",
-  })
+  }),
 );
 
 app.use(
   express.urlencoded({
     limit: "5mb",
-  })
+  }),
 );
 
 app.use("/api/v1", router);
 // app.use('/api/v2',router)
 
 // 404 error
-app.use((req,res,next) => {
+app.use((req, res, next) => {
   next({
     error: null,
     message: "not found",
     status: "NOT_FOUND_ERR",
-  })
-})
+  });
+});
 
 app.use(ErrorHandler);
 

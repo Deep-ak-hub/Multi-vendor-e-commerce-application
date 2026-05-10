@@ -131,7 +131,7 @@ class ProductService {
 
       // if donot exist mongodb query and
       const data = await ProductModel.find(filter)
-        .populate("brand",['_id','name','slug','image','parent','brands','status'])
+        .populate("brand",['_id','name','slug','logo','status'])
         .populate("category",['_id','name','slug','image','parent','brands','status'])
         .populate("seller",['_id','name','role','image','status','email'])
         .populate("createdBy",['_id','name','role','image','status','email'])

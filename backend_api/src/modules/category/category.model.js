@@ -50,7 +50,7 @@ const CategorySchema = new mongoose.Schema(
   {
     autoCreate: true,
     autoIndex: true,
-    timeStamps: true
+    timestamps: true
   }
 );
 

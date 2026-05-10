@@ -1,0 +1,49 @@
+{
+  "_id": {
+    "$oid": "698586eb1c3a9af59c9ff888"
+  },
+  "name": "Samsung watch ultra 7",
+  "slug": "samsung-watch-ultra-7-1770358504346",
+  "description": "dfhdohiewphtfdksfksadhfi",
+  "price": 12000000,
+  "discount": 10,
+  "afterDiscount": 10800000,
+  "category": {
+    "$oid": "697c60b3d3cddc11272b51d9"
+  },
+  "brand": null,
+  "seller": {
+    "$oid": "6927c2c79a480a382f72f8a7"
+  },
+  "images": [
+    {
+      "publicId": "ecom-50/product/vi3f25v1lwbkizkfmtsc",
+      "url": "https://res.cloudinary.com/dn5dd7auw/image/upload/v1770358505/ecom-50/product/vi3f25v1lwbkizkfmtsc.jpg",
+      "thumbUrl": "https://res.cloudinary.com/dn5dd7auw/image/upload/ar_1.0,c_fill/v1/ecom-50/product/vi3f25v1lwbkizkfmtsc?_a=BAMAOGZW0",
+      "_id": {
+        "$oid": "698586eb1c3a9af59c9ff889"
+      }
+    },
+    {
+      "publicId": "ecom-50/product/jnuzmyygqm5jhs1rlqfo",
+      "url": "https://res.clopudinary.com/dn5dd7auw/image/upload/v1770358505/ecom-50/product/jnuzmyygqm5jhs1rlqfo.jpg",
+      "thumbUrl": "https://res.cloudinary.com/dn5dd7auw/image/upload/ar_1.0,c_fill/v1/ecom-50/product/jnuzmyygqm5jhs1rlqfo?_a=BAMAOGZW0",
+      "_id": {
+        "$oid": "698586eb1c3a9af59c9ff88a"
+      }
+    }
+  ],
+  "isFeatured": true,
+  "status": "active",
+  "createdBy": {
+    "$oid": "6927c2c79a480a382f72f8a7"
+  },
+  "updatedBy": null,
+  "createdAt": {
+    "$date": "2026-02-06T06:15:07.541Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-06T06:15:07.541Z"
+  },
+  "__v": 0
+}

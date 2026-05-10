@@ -13,6 +13,7 @@ const orderDetailsRouter = require("../modules/order-details/order-details.route
 const productsRouter = require("../modules/products/products.router");
 const transactionsRouter = require("../modules/transactions/transactions.router");
 const usersRouter = require("../modules/users/users.router");
+const variantRouter = require("../modules/variant/variant.router");
 
 router.use("/auth", authRouter);
 router.use("/front", frontRouter);
@@ -25,6 +26,7 @@ router.use("/offers", offersRouter);
 router.use("/order", orderRouter);
 router.use("/order-details", orderDetailsRouter);
 router.use("/products", productsRouter);
+router.use("/variant", variantRouter)
 router.use("/transactions", transactionsRouter);
 router.use("/users", usersRouter);
 

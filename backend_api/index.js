@@ -10,8 +10,8 @@ const PORT = 9005;
 
 (async () => {
   try {
-    await mongoDbInit()
-    await redisConnect()
+    await mongoDbInit();
+    await redisConnect();
     server.listen(PORT, HOST, (err) => {
       if (!err) {
         console.log(`Server is running on the port ${PORT}`);
