@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Tutorial CSS usage files
+COLOR_SYSTEM_GUIDE.md
+ColorSystemExamples.tsx
