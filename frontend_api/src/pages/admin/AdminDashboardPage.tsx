@@ -165,7 +165,7 @@ export default function AdminDashboardPage() {
                     </td>
                     <td className="px-3 py-3 md:px-5">
                       {/* Stack buttons on xs, row on sm+ */}
-                      <div className="flex flex-col gap-1.5 xs:flex-row xs:flex-wrap min-w-[100px]">
+                      <div className="flex flex-col gap-1.5 xs:flex-row xs:flex-wrap min-w-25">
                         <button
                           type="button"
                           className="rounded-md bg-primary-600 px-2.5 py-1 text-xs font-semibold text-bg-primary shadow-sm transition cursor-pointer hover:bg-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
