@@ -150,17 +150,37 @@
 @layer components {
   /* Primary Button */
   .btn-primary {
-    @apply px-6 py-2.5 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold rounded-lg transition-all duration-200 hover:from-primary-600 hover:to-primary-700 hover:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply px-6 py-2.5 bg-linear-to-r from-primary-500 to-primary-600 text-white font-semibold rounded-lg transition-all duration-200 hover:from-primary-600 hover:to-primary-700 hover:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   /* Secondary Button */
   .btn-secondary {
-    @apply px-6 py-2.5 bg-gradient-to-r from-secondary-500 to-secondary-600 text-white font-semibold rounded-lg transition-all duration-200 hover:from-secondary-600 hover:to-secondary-700 hover:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply px-6 py-2.5 bg-linear-to-r from-secondary-500 to-secondary-600 text-white font-semibold rounded-lg transition-all duration-200 hover:from-secondary-600 hover:to-secondary-700 hover:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   /* Tertiary Button */
   .btn-tertiary {
-    @apply px-6 py-2.5 bg-white border-2 border-primary-500 text-primary-600 font-semibold rounded-lg transition-all duration-200 hover:bg-primary-50 hover:border-primary-600 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+    padding: 0.625rem 1.5rem;
+    background-color: white;
+    border: 2px solid var(--color-primary-500);
+    color: var(--color-primary-600);
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+  }
+  
+  .btn-tertiary:hover {
+    background-color: var(--color-primary-50);
+    border-color: var(--color-primary-600);
+  }
+  
+  .btn-tertiary:active {
+    transform: scale(0.95);
+  }
+  
+  .btn-tertiary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   /* Outline Button */
@@ -217,7 +237,7 @@
   }
 
   .product-card-badge {
-    @apply absolute top-3 right-3 px-3 py-1 bg-gradient-to-r from-secondary-500 to-secondary-600 text-white text-xs font-bold rounded-full opacity-0 hover:opacity-100 transition-opacity duration-200;
+    @apply absolute top-3 right-3 px-3 py-1 bg-linear-to-r from-secondary-500 to-secondary-600 text-white text-xs font-bold rounded-full opacity-0 hover:opacity-100 transition-opacity duration-200;
   }
 
   /* Navigation Link */
@@ -236,7 +256,7 @@
 
   /* Divider */
   .divider {
-    @apply h-px bg-gradient-to-r from-transparent via-neutral-300 to-transparent;
+    @apply h-px bg-linear-to-r from-transparent via-neutral-300 to-transparent;
   }
 
   /* Gradient Text */
@@ -263,7 +283,7 @@
 
   /* Skeleton Loading */
   .skeleton {
-    @apply bg-gradient-to-r from-neutral-100 via-neutral-50 to-neutral-100 rounded animate-pulse;
+    @apply bg-linear-to-r from-neutral-100 via-neutral-50 to-neutral-100 rounded animate-pulse;
   }
 
   /* Hero Section */
