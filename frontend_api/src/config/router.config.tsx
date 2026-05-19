@@ -4,14 +4,20 @@ import RegisterPage from "../pages/RegisterPage";
 import ErrorPage from "../pages/ErrorPage";
 import ForgetPasswordPage from "../pages/ForgetPasswordPage";
 import AuthLayoutPage from "../pages/layouts/AuthLayoutPage";
+import AdminLayoutPage from "../pages/layouts/AdminLayoutPage";
+import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
 
 const AppRouter = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<AuthLayoutPage />}>
-        <Route index element={<LoginPage />} />
+        <Route index={true} element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
         <Route path="forget-password" element={<ForgetPasswordPage />} />
+      </Route>
+
+      <Route path="/admin" element={<AdminLayoutPage />}>
+        <Route index={true} element={<AdminDashboardPage />} />
       </Route>
 
       {/* Error Route */}
