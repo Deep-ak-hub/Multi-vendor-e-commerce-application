@@ -1,7 +1,29 @@
 import { Link, NavLink } from "react-router-dom";
 import { PageTitle } from "../components/PageTitleComponent";
+import { useState, type BaseSyntheticEvent } from "react";
+import { EmailInputComponent, PasswordInputComponent } from "../components/form/InputComponent";
+
+
+export interface ICredentials{
+  email: string
+  password: string
+}
 
 export default function LoginPage() {
+
+  const [credentials, setCredentials] = useState<ICredentials>({
+    email: "",
+    password: ""
+  })
+
+  const handleInputChange = (e: BaseSyntheticEvent) => {
+     const{name, value} = e.target
+    setCredentials({
+      ...credentials,
+      [name] : value
+    })
+  }
+  
   return (
     <>
       <form className="w-105 flex flex-col items-center text-white bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-10 shadow-2xl">
@@ -17,22 +39,14 @@ export default function LoginPage() {
         <div className="w-full mb-8">
           <div className="flex items-center border-b border-white/70 pb-2">
             <span className="mr-3">✉</span>
-            <input
-              type="text"
-              placeholder="Email ID"
-              className="bg-transparent outline-none w-full placeholder-white/80"
-            />
+            <EmailInputComponent name = "email" handler={handleInputChange} />
           </div>
         </div>
 
         <div className="w-full mb-8">
           <div className="flex items-center border-b border-white/70 pb-2">
             <span className="mr-3">🔒</span>
-            <input
-              type="password"
-              placeholder="Password"
-              className="bg-transparent outline-none w-full placeholder-white/80"
-            />
+            <PasswordInputComponent name="password" handler={handleInputChange} />
           </div>
         </div>
 

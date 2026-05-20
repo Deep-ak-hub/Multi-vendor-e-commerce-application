@@ -58,6 +58,17 @@ export default function RegisterPage() {
           </div>
         </div>
 
+        <div className="w-full mb-8">
+          <div className="flex items-center border-b border-white/70 pb-2">
+            <span className="mr-3">🔒</span>
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              className="bg-transparent outline-none w-full placeholder-white/80"
+            />
+          </div>
+        </div>
+
         <button
           type="submit"
           className="w-full py-3 bg-button-primary hover:bg-button-primary-hover tracking-[4px] font-semibold cursor-pointer rounded-lg transitions-colors duration-300"
