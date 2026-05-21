@@ -1,7 +1,23 @@
 import { Link } from "react-router-dom";
 import { PageTitle } from "../components/PageTitleComponent";
+import InputComponent from "../components/form/InputComponent";
+import { MdOutlineEmail } from "react-icons/md";
+import type { ILoginCredentials } from "./LoginPage";
+import { useState, type BaseSyntheticEvent } from "react";
 
 export default function ForgetPasswordPage() {
+  const [credentials, setCredentials] = useState<ILoginCredentials>({
+      email: "",
+      password: "",
+    });
+  
+    const handleInputChange = (e: BaseSyntheticEvent) => {
+      const { name, value } = e.target;
+      setCredentials({
+        ...credentials,
+        [name]: value,
+      });
+    };
   return (
     <>
       <form className="w-105 flex flex-col items-center text-white bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-10 shadow-2xl">
@@ -14,16 +30,13 @@ export default function ForgetPasswordPage() {
           className="font-light tracking-[6px] mb-12"
         />
 
-        <div className="w-full mb-8">
-          <div className="flex items-center border-b border-white/70 pb-2">
-            <span className="mr-3">✉</span>
-            <input
-              type="text"
-              placeholder="Email ID"
-              className="bg-transparent outline-none w-full placeholder-white/80"
-            />
-          </div>
-        </div>
+ <InputComponent
+           type="email"
+           placeholder="Email Id"
+           name="email"
+           icon={<MdOutlineEmail size={19}/>}
+           handler={handleInputChange}
+         />
 
         <button
           type="submit"

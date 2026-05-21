@@ -1,73 +1,89 @@
 import { Link } from "react-router-dom";
 import { PageTitle } from "../components/PageTitleComponent";
+import InputComponent from "../components/form/InputComponent";
+import { MdOutlineEmail } from "react-icons/md";
+import { useState, type BaseSyntheticEvent } from "react";
+import { FaUser } from "react-icons/fa";
+import { IoMdLock } from "react-icons/io";
+import { FiPhoneCall } from "react-icons/fi";
+
+export interface IRegisterCredentials {
+  fullName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  phone: number;
+}
 
 export default function RegisterPage() {
+  const [data, setData] = useState<IRegisterCredentials>({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    phone: NaN,
+  });
+
+  const handleInputChange = (e: BaseSyntheticEvent) => {
+    const { name, value } = e.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
+  
   return (
     <>
       <form className="w-105 flex flex-col items-center text-white bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-10 shadow-2xl">
+
         <div className="w-24 h-24 rounded-full flex items-center justify-center mb-6 bg-primary-700">
           <span className="text-4xl">📝</span>
         </div>
 
         <PageTitle
-          value="CUSTOMER REGISTER"
+          value="CREATE ACCOUNT"
           className="font-light tracking-[6px] mb-12"
         />
 
-        <div className="w-full mb-8">
-          <div className="flex items-center border-b border-white/70 pb-2">
-            <span className="mr-3">👤</span>
-            <input
-              type="text"
-              placeholder="Full Name"
-              className="bg-transparent outline-none w-full placeholder-white/80"
-            />
-          </div>
-        </div>
+        <InputComponent
+          type="text"
+          placeholder="Full Name"
+          name="fullName"
+          icon={<FaUser size={23} />}
+          handler={handleInputChange}
+        />
 
-        <div className="w-full mb-8">
-          <div className="flex items-center border-b border-white/70 pb-2">
-            <span className="mr-3">✉</span>
-            <input
-              type="email"
-              placeholder="Email ID"
-              className="bg-transparent outline-none w-full placeholder-white/80"
-            />
-          </div>
-        </div>
+        <InputComponent
+          type="email"
+          placeholder="Email Id"
+          name="email"
+          icon={<MdOutlineEmail size={23} />}
+          handler={handleInputChange}
+        />
 
-        <div className="w-full mb-8">
-          <div className="flex items-center border-b border-white/70 pb-2">
-            <span className="mr-3">📱</span>
-            <input
-              type="tel"
-              placeholder="Phone Number"
-              className="bg-transparent outline-none w-full placeholder-white/80"
-            />
-          </div>
-        </div>
+        <InputComponent
+          type="password"
+          placeholder="Password"
+          name="password"
+          icon={<IoMdLock size={23} />}
+          handler={handleInputChange}
+        />
 
-        <div className="w-full mb-8">
-          <div className="flex items-center border-b border-white/70 pb-2">
-            <span className="mr-3">🔒</span>
-            <input
-              type="password"
-              placeholder="Password"
-              className="bg-transparent outline-none w-full placeholder-white/80"
-            />
-          </div>
-        </div>
+        <InputComponent
+          type="password"
+          placeholder="Confirm Password"
+          name="confirmPassword"
+          icon={<IoMdLock size={23} />}
+          handler={handleInputChange}
+        />
 
-        <div className="w-full mb-8">
-          <div className="flex items-center border-b border-white/70 pb-2">
-            <span className="mr-3">🔒</span>
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              className="bg-transparent outline-none w-full placeholder-white/80"
-            />
-          </div>
-        </div>
+        <InputComponent
+          type="number"
+          placeholder="Phone"
+          name="phone"
+          icon={<FiPhoneCall size={23} />}
+          handler={handleInputChange}
+        />      
 
         <button
           type="submit"

@@ -2,6 +2,34 @@
 @import "flowbite-react/plugin/tailwindcss";
 @source "../../../.flowbite-react/class-list.json";
 
+/* Fix for browser autofill styling */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+  box-shadow: 0 0 0 30px transparent inset !important;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: white !important;
+}
+
+input:-webkit-autofill::first-line {
+  font-family: inherit;
+}
+
+/* Alternative approach: prevent autofill styling */
+input:-webkit-autofill {
+  -webkit-transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input:-webkit-autofill:active {
+  -webkit-transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 @theme {
   --color-primary-50: #f0f9ff;
   --color-primary-100: #e0f2fe;

@@ -1,7 +1,7 @@
 import { Outlet } from "react-router";
 import AuthLeftSidePanel from "../../components/auth/AuthLeftSidePanel";
 
-export default function ForgetPasswordPage() {
+export default function AuthLayoutPage() {
   return (
     <>
       <div className="flex w-full grow h-screen">
