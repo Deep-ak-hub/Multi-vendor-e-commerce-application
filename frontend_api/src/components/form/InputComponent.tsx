@@ -1,20 +1,20 @@
-import type { BaseSyntheticEvent } from "react";
+import type { UseFormRegisterReturn } from "react-hook-form";
 
 interface IInputComponentProps {
   type: string;
   placeholder: string;
-  name: string;
   icon?: React.ReactNode;
-  handler: (e: BaseSyntheticEvent) => void;
+  registration: UseFormRegisterReturn;
+  error?: string
   className?: string;
 }
 
 export default function InputComponent({
   type,
   placeholder,
-  name,
   icon,
-  handler,
+  registration,
+  error,
   className = "",
 }: Readonly<IInputComponentProps>) {
   return (
@@ -26,11 +26,11 @@ export default function InputComponent({
         <input
           type={type}
           placeholder={placeholder}
-          name={name}
-          onChange={handler}
+          {...registration}
           className="bg-transparent outline-none w-full placeholder-white/80"
         />
       </div>
+      {error && (<p className="text-error-500 text-x font-semibold">{error}</p>)}
     </div>
   );
 }

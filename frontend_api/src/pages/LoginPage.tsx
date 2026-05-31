@@ -1,9 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
 import { PageTitle } from "../components/PageTitleComponent";
-import { useState, type BaseSyntheticEvent } from "react";
 import InputComponent from "../components/form/InputComponent";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
+import { useForm } from "react-hook-form";
 
 export interface ILoginCredentials {
   email: string;
@@ -11,7 +11,7 @@ export interface ILoginCredentials {
 }
 
 export default function LoginPage() {
-  const [credentials, setCredentials] = useState<ILoginCredentials>({
+  /*   const [credentials, setCredentials] = useState<ILoginCredentials>({
     email: "",
     password: "",
   });
@@ -22,11 +22,24 @@ export default function LoginPage() {
       ...credentials,
       [name]: value,
     });
+  }; */
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ILoginCredentials>();
+
+  const submitForm = (data: ILoginCredentials) => {
+    console.log(data);
   };
 
   return (
     <>
-      <form className="w-105 flex flex-col items-center text-white bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-10 shadow-2xl">
+      <form
+        onSubmit={handleSubmit(submitForm)}
+        className="w-105 flex flex-col items-center text-white bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-10 shadow-2xl"
+      >
         <div className="w-24 h-24 rounded-full flex items-center justify-center mb-6 bg-primary-700">
           <span className="text-4xl">👤</span>
         </div>
@@ -39,17 +52,33 @@ export default function LoginPage() {
         <InputComponent
           type="email"
           placeholder="Email Id"
-          name="email"
-          icon={<MdOutlineEmail size={19}/>}
-          handler={handleInputChange}
+          icon={<MdOutlineEmail size={23} />}
+          registration={register("email", {
+            required: "Email is required",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "Please enter a valid email address",
+            },
+          })}
+          error={errors.email?.message}
         />
 
         <InputComponent
           type="password"
           placeholder="Password"
-          name="password"
-          icon={<IoMdLock size={19}/>}
-          handler={handleInputChange}
+          icon={<IoMdLock size={23} />}
+          registration={register("password", {
+            required: "Password is required",
+            minLength: {
+              value: 8,
+              message: "Password must be at least 8 characters",
+            },
+            pattern: {
+              value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])/,
+              message: "Password must contain uppercase, lowercase, numbers, and special characters (!@#$%^&*)",
+            },
+          })}
+          error={errors.password?.message}
         />
 
         <div className="flex justify-between w-full text-sm mb-10">
