@@ -23,7 +23,7 @@ export default function ForgetPasswordPage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ILoginCredentials>();
+  } = useForm<ILoginCredentials>({});
 
   const submitForm = (data: ILoginCredentials) => {
     console.log(data);

@@ -4,11 +4,28 @@ import InputComponent from "../components/form/InputComponent";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
 import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export interface ILoginCredentials {
   email: string;
   password: string;
 }
+
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])/;
+
+const credentialsDTO = z.object({
+  email: z.email("Please enter a valid email address"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(
+      passwordRegex,
+      "Password must contain uppercase, lowercase, numbers, and special characters (!@#$%^&*)",
+    ),
+});
+
+export type LoginCredentials = z.infer<typeof credentialsDTO>;
 
 export default function LoginPage() {
   /*   const [credentials, setCredentials] = useState<ILoginCredentials>({
@@ -28,9 +45,15 @@ export default function LoginPage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ILoginCredentials>();
+  } = useForm<LoginCredentials>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    resolver: zodResolver(credentialsDTO),
+  });
 
-  const submitForm = (data: ILoginCredentials) => {
+  const submitForm = (data: LoginCredentials) => {
     console.log(data);
   };
 
@@ -53,13 +76,7 @@ export default function LoginPage() {
           type="email"
           placeholder="Email Id"
           icon={<MdOutlineEmail size={23} />}
-          registration={register("email", {
-            required: "Email is required",
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "Please enter a valid email address",
-            },
-          })}
+          registration={register("email")}
           error={errors.email?.message}
         />
 
@@ -67,17 +84,7 @@ export default function LoginPage() {
           type="password"
           placeholder="Password"
           icon={<IoMdLock size={23} />}
-          registration={register("password", {
-            required: "Password is required",
-            minLength: {
-              value: 8,
-              message: "Password must be at least 8 characters",
-            },
-            pattern: {
-              value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])/,
-              message: "Password must contain uppercase, lowercase, numbers, and special characters (!@#$%^&*)",
-            },
-          })}
+          registration={register("password")}
           error={errors.password?.message}
         />
 

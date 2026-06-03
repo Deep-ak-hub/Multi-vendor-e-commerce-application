@@ -5,7 +5,7 @@ interface IInputComponentProps {
   placeholder: string;
   icon?: React.ReactNode;
   registration: UseFormRegisterReturn;
-  error?: string
+  error?: string;
   className?: string;
 }
 
@@ -20,7 +20,6 @@ export default function InputComponent({
   return (
     <div className={`w-full mb-8 ${className}`}>
       <div className="flex items-center border-b border-white/70 pb-2">
-        
         {icon && <span className="mr-3">{icon}</span>}
 
         <input
@@ -30,7 +29,9 @@ export default function InputComponent({
           className="bg-transparent outline-none w-full placeholder-white/80"
         />
       </div>
-      {error && (<p className="text-error-500 text-x font-semibold">{error}</p>)}
+      {error && (
+        <span className="text-error-500 text-x font-semibold">{error}</span>
+      )}
     </div>
   );
 }

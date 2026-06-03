@@ -6,14 +6,46 @@ import { FaUser } from "react-icons/fa";
 import { IoMdLock } from "react-icons/io";
 import { FiPhoneCall } from "react-icons/fi";
 import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export interface IRegisterCredentials {
   fullName: string;
   email: string;
   password: string;
   confirmPassword: string;
-  phone: number;
+  phone: string;
 }
+
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])/;
+const phoneRegex = /^(\+?\d{1,3}[- ]?)?\d{10}$/;
+
+const credentialsDTO = z
+  .object({
+    fullName: z
+      .string()
+      .min(3, "Full name must be at least 3 characters")
+      .max(20, "Username cannot exceed 20 characters"),
+    email: z.email("Please enter a valid email address"),
+    phone: z
+      .string()
+      .min(1, "Phone number is required")
+      .regex(phoneRegex, "Invalid phone number format"),
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .regex(
+        passwordRegex,
+        "Password must contain uppercase, lowercase, numbers, and special characters (!@#$%^&*)",
+      ),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export type RegisterCredentials = z.infer<typeof credentialsDTO>;
 
 export default function RegisterPage() {
   /* const [data, setData] = useState<IRegisterCredentials>({
@@ -21,7 +53,7 @@ export default function RegisterPage() {
     email: "",
     password: "",
     confirmPassword: "",
-    phone: 0,
+    phone: "",
   });
 
    const handleInputChange = (e: BaseSyntheticEvent) => {
@@ -40,11 +72,19 @@ export default function RegisterPage() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<IRegisterCredentials>();
+  } = useForm<RegisterCredentials>({
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      phone: "",
+    },
+    resolver: zodResolver(credentialsDTO),
+  });
 
-  const submitForm = (data: IRegisterCredentials) => {
+  const submitForm = (data: RegisterCredentials) => {
     console.log(data);
   };
 
@@ -68,14 +108,7 @@ export default function RegisterPage() {
           type="text"
           placeholder="Full Name"
           icon={<FaUser size={23} />}
-          registration={register("fullName", {
-            required: "Full name is required",
-            minLength: { value: 3, message: "Name must be at least 3 characters" },
-            pattern: {
-              value: /^[a-zA-Z\s]+$/,
-              message: "Name should only contain letters",
-            },
-          })}
+          registration={register("fullName")}
           error={errors.fullName?.message}
         />
 
@@ -83,13 +116,7 @@ export default function RegisterPage() {
           type="email"
           placeholder="Email Id"
           icon={<MdOutlineEmail size={23} />}
-          registration={register("email", {
-            required: "Email is required",
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "Please enter a valid email address",
-            },
-          })}
+          registration={register("email")}
           error={errors.email?.message}
         />
 
@@ -97,49 +124,25 @@ export default function RegisterPage() {
           type="password"
           placeholder="Password"
           icon={<IoMdLock size={23} />}
-          registration={register("password", {
-            required: "Password is required",
-            minLength: {
-              value: 8,
-              message: "Password must be at least 8 characters",
-            },
-            pattern: {
-              value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])/,
-              message: "Password must contain uppercase, lowercase, numbers, and special characters (!@#$%^&*)",
-            },
-          })}
+          registration={register("password")}
           error={errors.password?.message}
         />
 
         <InputComponent
-        type="password"
-        placeholder="Confirm Password"
-        icon={<IoMdLock size={23} />}
-        registration={register("confirmPassword", {
-          required: "Please confirm your password",
-          validate: (val) =>
-            val === watch("password") || "Passwords do not match",
-        })}
-        error={errors.confirmPassword?.message}
-      />
+          type="password"
+          placeholder="Confirm Password"
+          icon={<IoMdLock size={23} />}
+          registration={register("confirmPassword")}
+          error={errors.confirmPassword?.message}
+        />
 
         <InputComponent
-        type="number"
-        placeholder="Phone"
-        icon={<FiPhoneCall size={23} />}
-        registration={register("phone", {
-          required: "Phone number is required",
-          valueAsNumber: true,
-          validate: (val) => {
-            const phoneStr = val?.toString() || "";
-            if (phoneStr.length < 10) return "Phone number must be at least 10 digits";
-            if (phoneStr.length > 15) return "Phone number cannot exceed 15 digits";
-            if (!/^\d+$/.test(phoneStr)) return "Phone number should only contain digits";
-            return true;
-          },
-        })}
-        error={errors.phone?.message}
-      />
+          type="tel"
+          placeholder="Phone"
+          icon={<FiPhoneCall size={23} />}
+          registration={register("phone")}
+          error={errors.phone?.message}
+        />
 
         <button
           type="submit"
