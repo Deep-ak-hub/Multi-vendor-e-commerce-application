@@ -12,17 +12,11 @@ export interface ILoginCredentials {
   password: string;
 }
 
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])/;
-
 const credentialsDTO = z.object({
   email: z.email("Please enter a valid email address"),
   password: z
     .string()
-    .min(8, "Password must be at least 8 characters")
-    .regex(
-      passwordRegex,
-      "Password must contain uppercase, lowercase, numbers, and special characters (!@#$%^&*)",
-    ),
+    .min(1, "Password is Required")
 });
 
 export type LoginCredentials = z.infer<typeof credentialsDTO>;
