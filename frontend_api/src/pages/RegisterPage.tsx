@@ -10,6 +10,7 @@ import { FiPhoneCall } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import ButtonComponent from "../components/ButtonComponent";
 
 export interface IRegisterCredentials {
   fullName: string;
@@ -92,7 +93,7 @@ export default function RegisterPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<RegisterCredentials>({
     defaultValues: {
       fullName: "",
@@ -104,7 +105,7 @@ export default function RegisterPage() {
     resolver: zodResolver(credentialsDTO),
   });
 
-  const submitForm = (data: RegisterCredentials) => {
+  const submitForm = async(data: RegisterCredentials) => {
     const images = Array.from(data.images);
 
     console.log("Form Data:", data);
@@ -174,12 +175,13 @@ export default function RegisterPage() {
           error={errors.images?.message}
         />
 
-        <button
+        <ButtonComponent
           type="submit"
-          className="w-full py-3 bg-button-primary hover:bg-button-primary-hover tracking-[4px] font-semibold cursor-pointer rounded-lg transitions-colors duration-300"
+          className="w-full py-3 bg-button-primary hover:bg-button-primary-hover tracking-[4px] font-semibold cursor-pointer rounded-lg transitions-colors duration-300 disabled:cursor-not-allowed disabled:hover:scale-none"
+          isSubmitting={isSubmitting}
         >
           REGISTER
-        </button>
+        </ButtonComponent>
 
         <div className="flex flex-col items-center mt-8 text-sm">
           <p className="mb-3 text-white/90">Already have an account?</p>
