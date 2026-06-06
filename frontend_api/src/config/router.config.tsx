@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
+import LoginPage from "../pages/auth/LoginPage";
+import RegisterPage from "../pages/auth/RegisterPage";
 import ErrorPage from "../pages/ErrorPage";
-import ForgetPasswordPage from "../pages/ForgetPasswordPage";
+import ForgetPasswordPage from "../pages/auth/ForgetPasswordPage";
 import AuthLayoutPage from "../pages/layouts/AuthLayoutPage";
 import AdminLayoutPage from "../pages/layouts/AdminLayoutPage";
 import AdminDashboardPage from "../pages/admin/AdminDashboardPage";

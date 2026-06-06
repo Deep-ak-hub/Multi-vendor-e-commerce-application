@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { PageTitle } from "../components/PageTitleComponent";
-import InputComponent from "../components/form/InputComponent";
+import { PageTitle } from "../../components/PageTitleComponent";
+import InputComponent from "../../components/form/InputComponent";
 import { MdOutlineEmail } from "react-icons/md";
 import type { ILoginCredentials } from "./LoginPage";
 import { useForm } from "react-hook-form";

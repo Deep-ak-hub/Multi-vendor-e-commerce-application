@@ -10,16 +10,23 @@ const express = require("express");
 const router = require("./router.config.js");
 const ErrorHandler = require("../middlewares/error-handling.middleware.js");
 const cors = require("cors");
-const { AppConfig } = require("./config.js");
+const {ratelimit} = require("express-rate-limit")
+const helmet = require("helmet")
 
 const app = express();
-console.log(AppConfig.frontendURL);
 
-app.use(
-  cors({
-    origin: [AppConfig.frontendURL, "*"],
-  }),
-);
+app.use(cors());
+const limiter = ratelimit({
+  windowMs: 180000,
+  limit: 30,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  ipvv6Subnet: 56
+})
+
+app.use(limiter)
+
+app.use(helmet)
 
 // Parser
 app.use(

@@ -1,72 +1,18 @@
 import { Link } from "react-router-dom";
-import { PageTitle } from "../components/PageTitleComponent";
+import { PageTitle } from "../../components/PageTitleComponent";
 import InputComponent, {
   FileComponent,
-} from "../components/form/InputComponent";
+} from "../../components/form/InputComponent";
 import { MdOutlineEmail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { IoMdLock } from "react-icons/io";
 import { FiPhoneCall } from "react-icons/fi";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ButtonComponent from "../components/ButtonComponent";
+import ButtonComponent from "../../components/ButtonComponent";
+import { credentialsDTO, type RegisterCredentials } from "./auth.contract";
+import axiosInstance from "../../lib/axios.config";
 
-export interface IRegisterCredentials {
-  fullName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  phone: string;
-  images: FileList;
-}
-
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])/;
-const phoneRegex = /^(\+?\d{1,3}[- ]?)?\d{10}$/;
-const allowedImageTypes = ["images/jpeg", "images/png", "images/webp"];
-
-const credentialsDTO = z
-  .object({
-    fullName: z
-      .string()
-      .min(3, "Full name must be at least 3 characters")
-      .max(20, "Username cannot exceed 20 characters"),
-    email: z.email("Please enter a valid email address"),
-    phone: z
-      .string()
-      .min(1, "Phone number is required")
-      .regex(phoneRegex, "Invalid phone number format"),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters")
-      .regex(
-        passwordRegex,
-        "Password must contain uppercase, lowercase, numbers, and special characters (!@#$%^&*)",
-      ),
-    confirmPassword: z.string().min(1, "Please confirm your password"),
-    images: z
-      .instanceof(FileList)
-      .refine((files) => files.length > 0, "Please select at least one images")
-      .refine((files) => files.length <= 10, "Maximum 10 images allowed")
-      .refine(
-        (files) =>
-          Array.from(files).every((file) => file.size <= 5 * 1024 * 1024),
-        "Each images must be less than 5MB",
-      )
-      .refine(
-        (files) =>
-          Array.from(files).every((file) =>
-            allowedImageTypes.includes(file.type),
-          ),
-        "Only JPG, PNG and WEBP images are allowed",
-      ),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
-
-export type RegisterCredentials = z.infer<typeof credentialsDTO>;
 
 export default function RegisterPage() {
   /* const [data, setData] = useState<IRegisterCredentials>({
@@ -106,10 +52,16 @@ export default function RegisterPage() {
   });
 
   const submitForm = async(data: RegisterCredentials) => {
-    const images = Array.from(data.images);
-
-    console.log("Form Data:", data);
-    console.log("Selected Images:", images);
+    try {
+      const response = await axiosInstance.post("/auth/register", data, {
+        headers: {"Content-type": "multipart/form-data"}
+      })
+      console.log(response);
+      
+    } catch (exception) {
+      console.log(exception);
+      
+    }
   };
 
   return (
