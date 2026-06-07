@@ -25,7 +25,7 @@ const limiter = rateLimit({
 
 app.use(limiter)
 
-app.use(helmet)
+app.use(helmet())
 
 // Parser
 app.use(
