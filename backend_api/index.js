@@ -10,7 +10,8 @@ const server = http.createServer(app);
 const HOST = "127.0.0.1";
 const PORT = process.env.PORT || 443;
 
-(async () => {
+//IIFE
+/* (async () => {
   try {
     await mongoDbInit();
     await redisConnect();
@@ -24,4 +25,11 @@ const PORT = process.env.PORT || 443;
     console.log("error in server access");
     process.exit(1);
   }
-})();
+})(); */
+
+server.listen(PORT, (err) => {
+  if (!err) {
+    console.log(`Server is running on the port ${PORT}`);
+    console.log(`Press CTRL C to disconnect the server....`);
+  }
+});
