@@ -60,7 +60,6 @@ export default function RegisterPage() {
       
     } catch (exception) {
       console.log(exception);
-      
     }
   };
 
