@@ -1,3 +1,5 @@
+require("dotenv").config;
+
 const http = require("http");
 const app = require("./src/config/express.config");
 const { mongoDbInit } = require("./src/config/mongodb.config");
@@ -6,13 +8,13 @@ const { redisConnect } = require("./src/config/redis.config");
 const server = http.createServer(app);
 
 const HOST = "127.0.0.1";
-const PORT = 9005;
+const PORT = process.env.PORT || 443;
 
 (async () => {
   try {
     await mongoDbInit();
     await redisConnect();
-    server.listen(PORT, HOST, (err) => {
+    server.listen(PORT, (err) => {
       if (!err) {
         console.log(`Server is running on the port ${PORT}`);
         console.log(`Press CTRL C to disconnect the server....`);
