@@ -27,6 +27,16 @@ const PORT = process.env.PORT || 443;
   }
 })(); */
 
+try {
+    await mongoDbInit();
+    await redisConnect();
+    
+  } catch (exception) {
+    console.log("error in server access");
+    process.exit(1);
+  }
+
+
 server.listen(PORT, (err) => {
   if (!err) {
     console.log(`Server is running on the port ${PORT}`);
