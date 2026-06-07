@@ -1,12 +1,14 @@
 const express = require("express");
-const { mongoDbInit } = require("./mongodb.config.js");
+// const { mongoDbInit } = require("./mongodb.config.js");
 
 // Ensure MongoDB initialization errors are handled
-mongoDbInit().catch((err) => {
-  console.error("Failed to initialize MongoDB:", err);
+/* mongoDbInit().catch((err) => {
+  console.error("Failed to initialize MongoDB");
+  console.error("Error message:", err.message || err);
+  console.error("Error status:", err.status);
   process.exit(1);
 });
-
+ */
 const router = require("./router.config.js");
 const ErrorHandler = require("../middlewares/error-handling.middleware.js");
 const cors = require("cors");

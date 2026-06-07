@@ -3,17 +3,19 @@ const { DbConfig } = require("./config")
 
 const mongoDbInit = async() => {
     try {
-        // console.log(DbConfig)
         await mongoose.connect(DbConfig.mongodb.url, {
             autoCreate: true,
             dbName: DbConfig.mongodb.dbName,
-            autoIndex: true
+            autoIndex: true,
+            serverSelectionTimeoutMS: 10000,
+            socketTimeoutMS: 45000,
         })
         console.log("Mongodb connected successfully...");
         
     } catch (exception) {
-        // console.log(exception)
-        throw {code: 500, message: "Mongodb initialization error", status: "MONGODB_CONNECTION_ERR"}
+        console.error("MongoDB Connection Error:", exception.message);
+        console.error("Full error details:", exception);
+        throw {code: 500, message: "Mongodb initialization error: " + exception.message, status: "MONGODB_CONNECTION_ERR"}
     }
 }
 
