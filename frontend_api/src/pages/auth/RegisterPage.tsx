@@ -13,7 +13,6 @@ import ButtonComponent from "../../components/ButtonComponent";
 import { credentialsDTO, type RegisterCredentials } from "./auth.contract";
 import axiosInstance from "../../lib/axios.config";
 
-
 export default function RegisterPage() {
   /* const [data, setData] = useState<IRegisterCredentials>({
     fullName: "",
@@ -42,7 +41,7 @@ export default function RegisterPage() {
     formState: { errors, isSubmitting },
   } = useForm<RegisterCredentials>({
     defaultValues: {
-      fullName: "",
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -51,13 +50,20 @@ export default function RegisterPage() {
     resolver: zodResolver(credentialsDTO),
   });
 
-  const submitForm = async(data: RegisterCredentials) => {
+  const submitForm = async (data: RegisterCredentials) => {
     try {
-      const response = await axiosInstance.post("/auth/register", data, {
-        headers: {"Content-type": "multipart/form-data"}
-      })
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+      formData.append("confirmPassword", data.confirmPassword);
+      formData.append("phone", data.phone);
+      formData.append("image", data.image[0]);
+
+      const response = await axiosInstance.post("/auth/register", formData, {
+        headers: { "Content-type": "multipart/form-data" },
+      });
       console.log(response);
-      
     } catch (exception) {
       console.log(exception);
     }
@@ -83,8 +89,8 @@ export default function RegisterPage() {
           type="text"
           placeholder="Full Name"
           icon={<FaUser size={23} />}
-          registration={register("fullName")}
-          error={errors.fullName?.message}
+          registration={register("name")}
+          error={errors.name?.message}
         />
 
         <InputComponent
@@ -120,10 +126,9 @@ export default function RegisterPage() {
         />
 
         <FileComponent
-          isMultiple
           placeholder="Images"
-          registration={register("images")}
-          error={errors.images?.message}
+          registration={register("image")}
+          error={errors.image?.message}
         />
 
         <ButtonComponent
