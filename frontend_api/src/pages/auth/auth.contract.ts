@@ -2,17 +2,17 @@ import * as z from "zod"
 import { allowedImageTypes, passwordRegex, phoneRegex } from "../../constants/Regex";
 
 export interface IRegisterCredentials {
-  fullName: string;
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;
   phone: string;
-  images: FileList;
+  image: FileList;
 }
 
 export const credentialsDTO = z
   .object({
-    fullName: z
+    name: z
       .string()
       .min(3, "Full name must be at least 3 characters")
       .max(20, "Username cannot exceed 20 characters"),
@@ -29,7 +29,7 @@ export const credentialsDTO = z
         "Password must contain uppercase, lowercase, numbers, and special characters (!@#$%^&*)",
       ),
     confirmPassword: z.string().min(1, "Please confirm your password"),
-    images: z
+    image: z
       .instanceof(FileList)
       .refine((files) => files.length > 0, "Please select at least one images")
       .refine((files) => files.length <= 10, "Maximum 10 images allowed")
