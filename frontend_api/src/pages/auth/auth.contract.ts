@@ -1,5 +1,5 @@
 import * as z from "zod"
-import { passwordRegex, phoneRegex } from "../../constants/Regex";
+import { allowedImageTypes, passwordRegex, phoneRegex } from "../../constants/Regex";
 
 export interface IRegisterCredentials {
   name: string;
@@ -29,7 +29,7 @@ export const credentialsDTO = z
         "Password must contain uppercase, lowercase, numbers, and special characters (!@#$%^&*)",
       ),
     confirmPassword: z.string().min(1, "Please confirm your password"),
-    /* image: z
+    image: z
       .instanceof(FileList)
       .refine((files) => files.length > 0, "Please select at least one images")
       .refine((files) => files.length <= 10, "Maximum 10 images allowed")
@@ -44,7 +44,7 @@ export const credentialsDTO = z
             allowedImageTypes.includes(file.type),
           ),
         "Only JPG, PNG and WEBP images are allowed",
-      ), */
+      ),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
