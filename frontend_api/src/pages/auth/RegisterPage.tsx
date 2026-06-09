@@ -122,7 +122,6 @@ export default function RegisterPage() {
         />
 
         <FileComponent
-          isMultiple
           placeholder="Images"
           registration={register("image")}
           error={errors.image?.message}
