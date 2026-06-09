@@ -22,7 +22,7 @@ class CloudinaryService {
   }
 
   // transformation + optimization
-  optimizeImage(public_id, size = "1024*1024") {
+  optimizeImage(public_id, size = "1024x1024") {
     let { width, height } = size.split("x");
     return cloudinary.url(public_id, {
       transformation: [
