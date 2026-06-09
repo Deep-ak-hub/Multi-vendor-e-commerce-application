@@ -11,7 +11,7 @@ export interface IRegisterCredentials {
   password: string;
   confirmPassword: string;
   phone: string;
-  images: FileList;
+  image: FileList;
 }
 
 export const credentialsDTO = z
