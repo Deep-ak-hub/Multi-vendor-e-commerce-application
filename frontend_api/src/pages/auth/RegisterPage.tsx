@@ -58,7 +58,9 @@ export default function RegisterPage() {
       formData.append("phone", data.phone);
       formData.append("image", data.image[0]);
       
-      const response = await axiosInstance.post("/auth/register", formData, )
+      const response = await axiosInstance.post("/auth/register", formData, 
+        {headers: {"Content-Type": "multipart/form-data"}}
+      )
       console.log(response);
     } catch (exception) {
       console.log(exception);
