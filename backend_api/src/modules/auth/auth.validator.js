@@ -22,7 +22,7 @@ const RegisterDTO = Joi.object({
   gender: Joi.string().regex(GenderExp),
   dob: Joi.date().less("now"),
   address: Joi.string().allow(null, "").optional().default(null),
-  image: Joi.string().allow(null, "").optional().default(null),
+  image: Joi.any().allow(null, "").optional().default(null),
 });
 
 const LoginDTO = Joi.object({
