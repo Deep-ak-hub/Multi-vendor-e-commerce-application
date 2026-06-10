@@ -72,8 +72,11 @@ class EmailService {
 
   constructor() {
     try {
+      console.log("Resend API key present:", ResendConfig.resendApiKey);
       this.#transport = new Resend(ResendConfig.resendApiKey);
+       console.log("RESEND SERVICE CONNECTED SUCCESSFULLY");
     } catch (exception) {
+      console.log("Resend init failed:", exception);
       throw {
         code: 500,
         message: "Resend not connected....",
