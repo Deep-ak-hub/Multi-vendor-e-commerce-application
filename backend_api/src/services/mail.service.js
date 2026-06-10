@@ -107,6 +107,8 @@ class EmailService {
       if (attachment) {
         messageBody["attachments"] = attachment;
       }
+
+      return await this.#transport.emails.send(messageBody);
     } catch (exception) {
       console.log(exception);
       throw {
