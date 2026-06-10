@@ -71,19 +71,20 @@ class EmailService {
   #transport;
 
   constructor() {
-    try {
-      console.log("Resend API key present:", ResendConfig.resendApiKey);
-      this.#transport = new Resend(ResendConfig.resendApiKey);
-       console.log("RESEND SERVICE CONNECTED SUCCESSFULLY");
-    } catch (exception) {
-      console.log("Resend init failed:", exception);
-      throw {
-        code: 500,
-        message: "Resend not connected....",
-        status: "RESEND_CONNECTION_ERROR",
-      };
-    }
+  try {
+    console.log("ENV CHECK:", {
+      keyExists: !!ResendConfig.resendApiKey,
+      keyPrefix: ResendConfig.resendApiKey?.substring(0, 6),
+      fromAddress: ResendConfig.resendFROM
+    });
+    
+    this.#transport = new Resend(ResendConfig.resendApiKey);
+    console.log("RESEND CONNECTED ✅");
+  } catch (exception) {
+    console.log("Resend init failed:", exception);
+    throw { ... };
   }
+}
 
   async sendEmail({
     to,
