@@ -24,6 +24,11 @@ const SmtpConfig = {
   smtpFromAddress : process.env.SMTP_FROM,
 }
 
+const ResendConfig = {
+  resendApiKey: process.env.RESEND_API_KEY,
+  resendFROM: process.env.RESEND_FROM
+}
+
 const AppConfig = {
   frontendURL: process.env.FRONTEND_URL,
   jwtSecret: process.env.JWT_SECRET
@@ -48,6 +53,7 @@ module.exports = {
   CloudinaryConfig,
   DbConfig,
   SmtpConfig,
+  ResendConfig,
   AppConfig,
   AdminConfig,
   RedisConfig

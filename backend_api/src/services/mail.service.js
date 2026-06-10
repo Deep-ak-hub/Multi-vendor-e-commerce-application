@@ -1,4 +1,4 @@
-const nodemailer = require("nodemailer");
+/* const nodemailer = require("nodemailer");
 const { SmtpConfig } = require("../config/config");
 
 class EmailService {
@@ -62,6 +62,60 @@ class EmailService {
       };
     }
   }
+} */
+
+const { Resend } = require("resend");
+const { ResendConfig } = require("../config/config");
+
+class EmailService {
+  #transport;
+
+  constructor() {
+    try {
+      this.#transport = new Resend(ResendConfig.resendApiKey);
+    } catch (exception) {
+      throw {
+        code: 500,
+        message: "Resend not connected....",
+        status: "RESEND_CONNECTION_ERROR",
+      };
+    }
+  }
+
+  async sendEmail({
+    to,
+    subject,
+    message,
+    cc = null,
+    bcc = null,
+    attachment = null,
+  }) {
+    try {
+      let messageBody = {
+        from: ResendConfig.resendFROM,
+        to: to,
+        subject: subject,
+        html: message,
+      };
+
+      if (cc) {
+        messageBody["cc"] = cc;
+      }
+      if (bcc) {
+        messageBody["bcc"] = bcc;
+      }
+      if (attachment) {
+        messageBody["attachments"] = attachment;
+      }
+    } catch (exception) {
+      console.log(exception);
+      throw {
+        code: 500,
+        message: "Email not sent",
+        status: "RESEND_EMAIL_NOT_SENT_ERROR",
+      };
+    }
+  }
 }
 
-module.exports = EmailService
+module.exports = EmailService;

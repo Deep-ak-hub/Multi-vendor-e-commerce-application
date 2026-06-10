@@ -6,6 +6,7 @@ import ForgetPasswordPage from "../pages/auth/ForgetPasswordPage";
 import AuthLayoutPage from "../pages/layouts/AuthLayoutPage";
 import AdminLayoutPage from "../pages/layouts/AdminLayoutPage";
 import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
+import ActivationPendingPage from "../pages/auth/ActivationPendingPage";
 
 const AppRouter = () => (
   <BrowserRouter>
@@ -16,6 +17,7 @@ const AppRouter = () => (
         <Route path="forget-password" element={<ForgetPasswordPage />} />
       </Route>
 
+      <Route path="/activate-pending" element={<ActivationPendingPage />} />
       <Route path="/admin" element={<AdminLayoutPage />}>
         <Route index={true} element={<AdminDashboardPage />} />
       </Route>

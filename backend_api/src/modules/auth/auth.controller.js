@@ -13,7 +13,7 @@ class AuthController {
       const data = await authService.transformUserForRegistration(req);
       const user = await userService.storeUser(data);
 
-      // await authEmailService.notifyToActivateUserAccout(user);
+      await authEmailService.notifyToActivateUserAccout(user);
       res.json({
         data: userService.getUserPublicProfile(user),
         message: "Your account has been created successfully",

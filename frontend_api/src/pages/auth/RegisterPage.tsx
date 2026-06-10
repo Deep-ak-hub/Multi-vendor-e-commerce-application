@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PageTitle } from "../../components/PageTitleComponent";
-import InputComponent, { FileComponent } from "../../components/form/InputComponent";
+import InputComponent, {
+  FileComponent,
+} from "../../components/form/InputComponent";
 import { MdOutlineEmail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { IoMdLock } from "react-icons/io";
@@ -33,6 +35,8 @@ export default function RegisterPage() {
 }
  */
 
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -57,10 +61,12 @@ export default function RegisterPage() {
       formData.append("confirmPassword", data.confirmPassword);
       formData.append("phone", data.phone);
       formData.append("image", data.image[0]);
-      
-      const response = await axiosInstance.post("/auth/register", formData, 
-        {headers: {"Content-Type": "multipart/form-data"}}
-      )
+
+      const response = await axiosInstance.post("/auth/register", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      navigate("/activate-pending");
       console.log(response);
     } catch (exception) {
       console.log(exception);
