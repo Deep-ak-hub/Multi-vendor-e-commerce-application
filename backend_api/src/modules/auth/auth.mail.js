@@ -6,7 +6,7 @@ class AuthEmailService extends EmailService {
 
   async notifyToActivateUserAccout(user) {
     try {
-      let activationLink = AppConfig.frontendURL + "verify/" + user.activationToken;
+      let activationLink = AppConfig.frontendURL + "/verify/" + user.activationToken;
 
       return await this.sendEmail({
         to: user.email,
