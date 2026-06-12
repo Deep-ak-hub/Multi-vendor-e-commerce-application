@@ -1,7 +1,7 @@
 import { Outlet } from "react-router";
 import { useEffect, useState } from "react";
 import AuthLeftSidePanel from "../../components/auth/AuthLeftSidePanel";
-import { LogoComponent } from "../../components/LogoComponent";
+import { LogoComponent } from "../../components/ui/LogoComponent";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function AuthLayoutPage() {

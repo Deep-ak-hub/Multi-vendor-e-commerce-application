@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { PageTitle } from "../../components/PageTitleComponent";
+import { PageTitle } from "../../components/ui/PageTitleComponent";
 import InputComponent, {
   FileComponent,
 } from "../../components/form/InputComponent";
@@ -9,7 +9,7 @@ import { IoMdLock } from "react-icons/io";
 import { FiPhoneCall } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ButtonComponent from "../../components/ButtonComponent";
+import ButtonComponent from "../../components/ui/ButtonComponent";
 import { credentialsDTO, type RegisterCredentials } from "./auth.contract";
 import axiosInstance from "../../lib/axios.config";
 

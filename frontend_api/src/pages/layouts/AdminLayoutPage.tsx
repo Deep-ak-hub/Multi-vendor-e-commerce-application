@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { LogoComponent } from "../../components/LogoComponent";
+import { LogoComponent } from "../../components/ui/LogoComponent";
 import { FooterLayoutPage } from "./FooterLayoutPage";
 import {
   Bars3Icon,

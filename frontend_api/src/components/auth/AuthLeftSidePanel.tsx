@@ -1,4 +1,4 @@
-import { LogoComponent } from "../LogoComponent";
+import { LogoComponent } from "../ui/LogoComponent";
 
 export default function AuthLeftSidePanel() {
   return (

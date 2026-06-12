@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { PageTitle } from "../..//components/PageTitleComponent";
+import { PageTitle } from "../../components/ui/PageTitleComponent";
 import InputComponent from "../../components/form/InputComponent";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";

@@ -1,4 +1,4 @@
-;import logo from "../assets/images/ecom_logo.png"
+;import logo from "../../assets/images/ecom_logo.png"
 
 export const LogoComponent = ( {className} : Readonly<{className?: string}>) => {
   return (
