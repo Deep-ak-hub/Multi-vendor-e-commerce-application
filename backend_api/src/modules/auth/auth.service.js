@@ -8,10 +8,6 @@ class AuthService {
     try {
       const data = req.body;
 
-      /* if(!req.file) {
-        throw {code: 400, message: "Image Required", detail: {image: "Image is compulsory", status: "VALIDATION_ERR"}}
-      } */
-
       if(req.file) {
           const file = req.file;                 // for multiple files ----> const files = req.files
           data.image = await cloudinaryService.singleFileUpload(file.path,"users/");
