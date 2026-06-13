@@ -11,7 +11,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ButtonComponent from "../../components/ui/ButtonComponent";
 import { credentialsDTO, type RegisterCredentials } from "./auth.contract";
-import axiosInstance from "../../lib/axios.config";
+import axiosInstance, { type ApiError } from "../../lib/axios.config";
+import { toast } from "react-toastify";
 
 export default function RegisterPage() {
   /* const [data, setData] = useState<IRegisterCredentials>({
@@ -40,6 +41,7 @@ export default function RegisterPage() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<RegisterCredentials>({
     defaultValues: {
@@ -66,10 +68,30 @@ export default function RegisterPage() {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
+      toast.success(
+        <div>
+          <strong>Register Successful</strong>
+          <div>please check the email for activaiton</div>
+        </div>,
+      );
+
       navigate("/activate-pending");
       console.log(response);
     } catch (exception) {
-      console.log(exception);
+      const error = exception as ApiError;
+
+      toast.error(
+        <div>
+          <strong>Registration Failed</strong>
+          <div>{error.message}</div>
+        </div>,
+      );
+      if (error.fieldErrors) {
+        Object.entries(error.fieldErrors).forEach((msg) => {
+          // eslint-disable-next-line
+          (setError as unknown as keyof RegisterCredentials, { message: msg });
+        });
+      }
     }
   };
 

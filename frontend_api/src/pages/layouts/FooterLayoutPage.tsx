@@ -19,7 +19,8 @@ export function FooterLayoutPage() {
     <Footer>
       <div className="w-full">
         {/* Link columns */}
-        <div className="bg-gradient-premium w-full px-6 py-8 grid grid-cols-2 gap-8 sm:grid-cols-3 sm:gap-6 md:gap-10 lg:gap-16 lg:px-12">
+        <div className="bg-gradient-premium w-full px-6 py-8 flex justify-center lg:px-12">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 sm:gap-6 md:gap-10 lg:gap-16 max-w-6xl w-full">
           <div>
             <FooterTitle title="Company" className="text-white/80" />
             <FooterLinkGroup col className="text-white/80">
@@ -47,6 +48,7 @@ export function FooterLayoutPage() {
               <FooterLink href="#">Terms &amp; Conditions</FooterLink>
             </FooterLinkGroup>
           </div>
+          </div>
         </div>
 
         {/* Bottom bar */}
@@ -55,7 +57,7 @@ export function FooterLayoutPage() {
             href="#"
             by="Bhakaari Bazzar™"
             year={2025}
-            className="text-cyan-700 font-bold text-sm"
+            className="gradient-text-secondary font-bold text-sm"
           />
           <div className="flex items-center space-x-5">
             <FooterIcon href="#" icon={BsFacebook} className="text-white hover:text-white/75 transition-colors" />
