@@ -9,12 +9,21 @@ import { LogoComponent } from "./LogoComponent";
 import { Link } from "react-router";
 import AccountDropdownComponent from "./AccountDropdownComponent";
 
-export default function Navbar() {
+type NavBarProps = {
+  search?: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export default function Navbar({ search, setSearch }: NavBarProps) {
   const [open, setOpen] = React.useState(false);
+
+   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
 
   return (
     <nav className="bg-gradient-accent border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" mx-auto px-4 sm:px-8 lg:px-14">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <button
@@ -30,17 +39,19 @@ export default function Navbar() {
             </button>
 
             <Link to="/">
-              <LogoComponent className="size-15" />
+              <LogoComponent className="size-14" />
             </Link>
           </div>
 
-          <div className="hidden md:flex md:items-center md:space-x-6 flex-1 mx-6">
+          <div className="hidden md:flex md:items-center md:space-x-12 flex-1 mx-16">
             <div className="relative w-full max-w-xl">
               <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
                 type="search"
                 placeholder="Search products, categories..."
                 className="block w-full pl-10 pr-4 py-2 border border-gray-200 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                value={search}
+                onChange={handleSearch}
               />
             </div>
           </div>

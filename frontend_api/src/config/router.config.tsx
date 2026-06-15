@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import Navbar from "../components/ui/Navbar";
 
 const LoginPage = lazy(() => import("../pages/auth/LoginPage"));
 const RegisterPage = lazy(() => import("../pages/auth/RegisterPage"));
@@ -28,8 +27,6 @@ const AppRouter = () => (
         </Route>
 
         <Route path="/products" element={<Products />} />
-
-        <Route path="/navbar" element={<Navbar/>} />
 
         {/* Error Route */}
         <Route path="*" element={<ErrorPage />} />

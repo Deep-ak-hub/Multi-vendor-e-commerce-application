@@ -17,7 +17,7 @@ export default function AccountDropdownComponent() {
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setDropdownOpen(!dropdownOpen)}
-          className="flex items-center gap-1.5 sm:gap-2 px-2 py-1.5 sm:px-4 sm:py-2 hover:bg-gray-300 cursor-pointer rounded-lg transition-colors"
+          className="flex items-center gap-1.5 sm:gap-2 px-2 py-1.5 sm:px-4 sm:py-2 cursor-pointer rounded-lg transition-colors"
           aria-expanded={dropdownOpen}
           aria-haspopup="true"
         >
