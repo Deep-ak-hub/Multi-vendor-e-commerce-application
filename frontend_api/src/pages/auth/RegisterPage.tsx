@@ -75,7 +75,7 @@ export default function RegisterPage() {
         </div>,
       );
 
-      navigate("/activate-pending");
+      navigate("/verify/:token");
       console.log(response);
     } catch (exception) {
       const error = exception as ApiError;

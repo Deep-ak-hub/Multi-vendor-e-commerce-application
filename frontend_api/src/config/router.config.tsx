@@ -8,7 +8,7 @@ const ForgetPasswordPage = lazy(() => import("../pages/auth/ForgetPasswordPage")
 const AuthLayoutPage = lazy(() => import("../pages/layouts/AuthLayoutPage"));
 const AdminLayoutPage = lazy(() => import("../pages/layouts/AdminLayoutPage"));
 const AdminDashboardPage = lazy(() => import("../pages/admin/AdminDashboardPage"));
-const ActivationPendingPage = lazy(() => import("../pages/auth/ActivationPendingPage"));
+const ActivationPage = lazy(() => import("../pages/auth/ActivationPage"));
 const Products = lazy(() => import("../pages/product/ProductsPage"));
 
 const AppRouter = () => (
@@ -21,7 +21,7 @@ const AppRouter = () => (
           <Route path="forget-password" element={<ForgetPasswordPage />} />
         </Route>
 
-        <Route path="/activate-pending" element={<ActivationPendingPage />} />
+        <Route path="/verify/:token" element={<ActivationPage />} />
         <Route path="/admin" element={<AdminLayoutPage />}>
           <Route index={true} element={<AdminDashboardPage />} />
         </Route>

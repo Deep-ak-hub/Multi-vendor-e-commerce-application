@@ -11,6 +11,7 @@ export interface ApiError {
   message?: string;
   status?: number;
   fieldErrors?: Record<string, string>;
+  errorCode?: string; 
 }
 
 const axiosInstance = axios.create({
@@ -52,6 +53,7 @@ axiosInstance.interceptors.response.use(
       message,
       status: exception.response?.status,
       fieldErrors,
+      errorCode: errorData?.status
     };
     return Promise.reject(normalizedError);
   },

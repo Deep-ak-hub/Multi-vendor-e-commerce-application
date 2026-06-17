@@ -41,6 +41,16 @@ class AuthController {
         };
       }
 
+      // Check if already active
+      if (userDetail.status === Status.ACTIVE) {
+        // Account already activated – treat as success
+        return res.status(200).json({
+          data: userService.getUserPublicProfile(userDetail),
+          message: "Account is already active. Please login.",
+          status: "ALREADY_ACTIVATED",
+        });
+      }
+
       // userdetails exists
       const today = Date.now();
       console.log(userDetail);
@@ -62,7 +72,7 @@ class AuthController {
       };
       userDetail = await userService.updateSingleRowByFilter(
         { _id: userDetail._id },
-        update
+        update,
       );
 
       // notify
@@ -119,7 +129,7 @@ class AuthController {
 
       userDetail = await userService.updateSingleRowByFilter(
         { _id: userDetail._id },
-        update
+        update,
       );
 
       // notify
@@ -130,6 +140,10 @@ class AuthController {
         data: null,
         message: "A new activation link has been sent to your email...",
         status: "OK",
+        meta: {
+          resendLink:
+            AppConfig.frontendURL + "/verify/" + userDetail.activationToken,
+        },
       });
     } catch (exception) {
       next(exception);
@@ -178,7 +192,7 @@ class AuthController {
       const accessToken = jwt.sign(
         { sub: userDetail._id, typ: "Bearer" },
         AppConfig.jwtSecret,
-        { expiresIn: "1d" }
+        { expiresIn: "1d" },
       );
 
       // refreshToken
@@ -222,7 +236,7 @@ class AuthController {
       // update user  with updateData
       const updatedUser = await userService.updateSingleRowByFilter(
         { _id: userDetail._id },
-        updateData
+        updateData,
       );
 
       // send mail to the user with link
@@ -239,7 +253,7 @@ class AuthController {
       next(exception);
     }
   };
-  
+
   getLoggedInUserProfile = (req, res, next) => {
     res.json({
       data: req.loggedInUser,
@@ -268,7 +282,7 @@ class AuthController {
 
       const updatedUser = await userService.updateSingleRowByFilter(
         { _id: userId },
-        updateData
+        updateData,
       );
 
       if (!updatedUser) {
@@ -362,7 +376,7 @@ class AuthController {
         throw {
           code: 410,
           message: "Reset token is expired",
-          status: "RESET_TOKEN_EXPIRED_ERR"
+          status: "RESET_TOKEN_EXPIRED_ERR",
         };
       }
 
@@ -372,7 +386,10 @@ class AuthController {
         expiryTime: null,
       };
 
-      await userService.updateSingleRowByFilter({ _id: userDetail._id }, updatePassword);
+      await userService.updateSingleRowByFilter(
+        { _id: userDetail._id },
+        updatePassword,
+      );
 
       // optional : notify via email
 
@@ -380,8 +397,8 @@ class AuthController {
       res.status(200).json({
         data: null,
         message: "Password has been reset successfully",
-        status: "PASSWORD_RESET_SUCCESS"
-      })
+        status: "PASSWORD_RESET_SUCCESS",
+      });
     } catch (exception) {
       next(exception);
     }
