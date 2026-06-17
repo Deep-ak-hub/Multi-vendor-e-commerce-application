@@ -21,7 +21,6 @@ class AuthController {
         meta: { activationToken: user.activationToken },
       });
       // console.log(data.activationToken);
-      
     } catch (exception) {
       console.log({ exception });
       next(exception);
@@ -30,12 +29,16 @@ class AuthController {
 
   activateUserByToken = async (req, res, next) => {
     try {
-      
       const token = req.params.token;
-      
+
+      console.log("Activation token received:", token);
+      console.log("Token type:", typeof token);
+
       let userDetail = await userService.getSingleRowByFilter({
         activationToken: token,
       });
+
+      console.log("Found user:", userDetail);
 
       if (!userDetail) {
         throw {
