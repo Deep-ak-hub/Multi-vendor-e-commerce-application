@@ -72,12 +72,6 @@ class EmailService {
 
   constructor() {
     try {
-      console.log("ENV CHECK:", {
-        keyExists: !!ResendConfig.resendApiKey,
-        keyPrefix: ResendConfig.resendApiKey?.substring(0, 6),
-        fromAddress: ResendConfig.resendFROM,
-      });
-
       this.#transport = new Resend(ResendConfig.resendApiKey);
       console.log("RESEND CONNECTED ✅");
     } catch (exception) {

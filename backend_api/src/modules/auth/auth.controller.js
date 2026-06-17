@@ -20,6 +20,8 @@ class AuthController {
         status: "OK",
         meta: { activationToken: user.activationToken },
       });
+      // console.log(data.activationToken);
+      
     } catch (exception) {
       console.log({ exception });
       next(exception);
@@ -28,7 +30,9 @@ class AuthController {
 
   activateUserByToken = async (req, res, next) => {
     try {
+      
       const token = req.params.token;
+      
       let userDetail = await userService.getSingleRowByFilter({
         activationToken: token,
       });
@@ -36,7 +40,7 @@ class AuthController {
       if (!userDetail) {
         throw {
           code: 404,
-          message: "User has been already activated or token not found",
+          message: "User is not registered yet",
           status: "USER_NOT_FOUND_ERR",
         };
       }
