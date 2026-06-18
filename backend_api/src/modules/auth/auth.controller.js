@@ -18,7 +18,9 @@ class AuthController {
         data: userService.getUserPublicProfile(user),
         message: "Your account has been created successfully",
         status: "OK",
-        meta: { activationToken: user.activationToken },
+        meta: {
+          activationLink: AppConfig.frontendURL + "verify/" + user.activationToken,
+        },
       });
       // console.log(data.activationToken);
     } catch (exception) {
@@ -30,10 +32,7 @@ class AuthController {
   activateUserByToken = async (req, res, next) => {
     try {
       const token = req.params.token;
-
-      console.log("Activation token received:", token);
-      console.log("Token type:", typeof token);
-
+      
       let userDetail = await userService.getSingleRowByFilter({
         activationToken: token,
       });
@@ -43,7 +42,7 @@ class AuthController {
       if (!userDetail) {
         throw {
           code: 404,
-          message: "User is not registered yet",
+          message: "Token not found",
           status: "USER_NOT_FOUND_ERR",
         };
       }
