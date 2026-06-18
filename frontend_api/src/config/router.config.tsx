@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import RegisterSuccessPage from "../pages/auth/RegisterSuccessPage";
 
 const LoginPage = lazy(() => import("../pages/auth/LoginPage"));
 const RegisterPage = lazy(() => import("../pages/auth/RegisterPage"));
@@ -21,6 +22,7 @@ const AppRouter = () => (
           <Route path="forget-password" element={<ForgetPasswordPage />} />
         </Route>
 
+        <Route path="/register-success" element={<RegisterSuccessPage />} />
         <Route path="/verify/:token" element={<ActivationPage />} />
         <Route path="/admin" element={<AdminLayoutPage />}>
           <Route index={true} element={<AdminDashboardPage />} />
