@@ -19,7 +19,7 @@ class AuthController {
         message: "Your account has been created successfully",
         status: "OK",
         meta: {
-          activationLink: AppConfig.frontendURL + "verify/" + user.activationToken,
+          activationLink: AppConfig.frontendURL + "/verify/" + user.activationToken,
         },
       });
       // console.log(data.activationToken);
