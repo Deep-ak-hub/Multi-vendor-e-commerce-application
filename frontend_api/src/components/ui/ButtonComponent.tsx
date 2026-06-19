@@ -7,6 +7,7 @@ export interface ButtonComponentProps {
   icon?: React.ReactNode;
   placeholder?: string;
   isSubmitting?: boolean;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export default function ButtonComponent({
@@ -15,9 +16,10 @@ export default function ButtonComponent({
   icon,
   placeholder,
   isSubmitting = false,
+  onClick,
 }: ButtonComponentProps) {
   return (
-    <button className={className} disabled={isSubmitting}>
+    <button className={className} disabled={isSubmitting} onClick={onClick}>
       {icon}
       {children || placeholder}
     </button>

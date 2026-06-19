@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance, { type ApiError } from "../../lib/axios.config";
+import ButtonComponent from "../../components/ui/ButtonComponent";
 
 // 3 possible states — loading, expired token, or any other error
 type PageState = "loading" | "expired" | "error";
@@ -66,12 +67,12 @@ export default function VerifyAccountPage() {
         <p className="text-slate-600 mb-6">
           Your 24-hour activation link has expired. Please register again to receive a new one.
         </p>
-        <button
+        <ButtonComponent
           onClick={() => navigate("/register")}
-          className="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-semibold transition cursor-pointer"
+          className="px-6 py-3 bg-button-primary hover:bg-button-primary-hover text-white rounded-xl font-semibold transition cursor-pointer"
         >
           Register Again
-        </button>
+        </ButtonComponent>
       </PageCard>
     );
   }
@@ -82,12 +83,12 @@ export default function VerifyAccountPage() {
       <div className="text-5xl mb-4">⚠️</div>
       <h1 className="text-2xl font-bold text-slate-900 mb-3">Activation Failed</h1>
       <p className="text-red-600 bg-red-50 p-4 rounded-xl mb-6">{errorMessage}</p>
-      <button
+      <ButtonComponent
         onClick={() => navigate("/")}
-        className="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-semibold transition cursor-pointer"
+        className="px-6 py-3 bg-button-primary hover:bg-button-primary-hover text-white rounded-xl font-semibold transition cursor-pointer"
       >
         Go to Login
-      </button>
+      </ButtonComponent>
     </PageCard>
   );
 }
