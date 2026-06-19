@@ -75,7 +75,7 @@ export default function RegisterPage() {
         </div>,
       );
 
-      navigate("/verify/:token");
+      navigate("/register-success");
       console.log(response);
     } catch (exception) {
       const error = exception as ApiError;
