@@ -65,13 +65,13 @@ export default function VerifyAccountPage() {
         <div className="text-5xl mb-4">⏰</div>
         <h1 className="text-2xl font-bold text-slate-900 mb-3">Activation Link Expired</h1>
         <p className="text-slate-600 mb-6">
-          Your 24-hour activation link has expired. Please register again to receive a new one.
+          Your 24-hour activation link has expired. Please click on the following button to get new activation link.
         </p>
         <ButtonComponent
-          onClick={() => navigate("/register")}
+          onClick={() => navigate("/verify/:token")}
           className="px-6 py-3 bg-button-primary hover:bg-button-primary-hover text-white rounded-xl font-semibold transition cursor-pointer"
         >
-          Register Again
+          Resend Activation Link
         </ButtonComponent>
       </PageCard>
     );
