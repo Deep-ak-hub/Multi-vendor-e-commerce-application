@@ -30,6 +30,18 @@ const axiosInstance = axios.create({
 // UI Component ------> AxiosConfig ------> Interceptors ------> internet(network)
 // Server Response ------> Interceptors ------> UI Component
 
+// REQUEST interceptor — attaches token to every outgoing API call
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
 // Response Interceptor for Error Handling
 axiosInstance.interceptors.response.use(
   (response) => {

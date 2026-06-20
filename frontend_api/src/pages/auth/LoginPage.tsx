@@ -6,6 +6,8 @@ import { IoMdLock } from "react-icons/io";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axiosInstance, { type ApiError } from "../../lib/axios.config";
+import { toast } from "react-toastify";
 
 export interface ILoginCredentials {
   email: string;
@@ -47,8 +49,24 @@ export default function LoginPage() {
     resolver: zodResolver(credentialsDTO),
   });
 
-  const submitForm = (data: LoginCredentials) => {
-    console.log(data);
+  const submitForm = async (data: LoginCredentials) => {
+    try {
+      const response = await axiosInstance.post("/auth/login", {
+        username: data.email,
+        password: data.password
+      })
+      console.log(response);
+      
+    } catch (exception) {
+      const error = exception as ApiError
+
+      if(error.errorCode === "ACCOUNT_NOT_ACTIVATED") {
+        toast.warning(error.message)
+      } else {
+        toast.error(error.message || "Login failed. please try again.")
+      }
+      
+    }
   };
 
   return (

@@ -19,7 +19,8 @@ class AuthController {
         message: "Your account has been created successfully",
         status: "OK",
         meta: {
-          activationLink: AppConfig.frontendURL + "/verify/" + user.activationToken,
+          activationLink:
+            AppConfig.frontendURL + "/verify/" + user.activationToken,
         },
       });
       // console.log(data.activationToken);
@@ -32,7 +33,7 @@ class AuthController {
   activateUserByToken = async (req, res, next) => {
     try {
       const token = req.params.token;
-      
+
       let userDetail = await userService.getSingleRowByFilter({
         activationToken: token,
       });
@@ -196,7 +197,7 @@ class AuthController {
       // 3 part => headers.payload.signature
 
       const accessToken = jwt.sign(
-        { sub: userDetail._id, typ: "Bearer" },
+        { sub: userDetail._id, typ: "Bearer", role: userDetail.role },
         AppConfig.jwtSecret,
         { expiresIn: "1d" },
       );
@@ -206,7 +207,7 @@ class AuthController {
       // 2FA
 
       res.status(200).json({
-        data: accessToken,
+        data: { token: accessToken, role: userDetail.role },
         message: "You have been successfully logged in.",
         status: "LOGIN_SUCCESS",
       });
