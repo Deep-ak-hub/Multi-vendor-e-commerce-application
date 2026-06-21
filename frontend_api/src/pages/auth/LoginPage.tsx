@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { PageTitle } from "../../components/ui/PageTitleComponent";
 import InputComponent from "../../components/form/InputComponent";
 import { MdOutlineEmail } from "react-icons/md";
@@ -16,9 +16,7 @@ export interface ILoginCredentials {
 
 const credentialsDTO = z.object({
   email: z.email("Please enter a valid email address"),
-  password: z
-    .string()
-    .min(1, "Password is Required")
+  password: z.string().min(1, "Password is Required"),
 });
 
 export type LoginCredentials = z.infer<typeof credentialsDTO>;
@@ -37,6 +35,8 @@ export default function LoginPage() {
     });
   }; */
 
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -53,19 +53,30 @@ export default function LoginPage() {
     try {
       const response = await axiosInstance.post("/auth/login", {
         username: data.email,
-        password: data.password
-      })
+        password: data.password,
+      });
       console.log(response);
-      
-    } catch (exception) {
-      const error = exception as ApiError
 
-      if(error.errorCode === "ACCOUNT_NOT_ACTIVATED") {
-        toast.warning(error.message)
+      const { token, role } = response.data;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+
+      if (role === "ADMIN") {
+        navigate("/admin");
+      } else if (role === "SELLER") {
+        navigate("/admin");
       } else {
-        toast.error(error.message || "Login failed. please try again.")
+        navigate("/products");
       }
-      
+    } catch (exception) {
+      const error = exception as ApiError;
+
+      if (error.errorCode === "ACCOUNT_NOT_ACTIVATED") {
+        toast.warning(error.message);
+      } else {
+        toast.error(error.message || "Login failed. please try again.");
+      }
     }
   };
 
