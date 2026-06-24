@@ -62,9 +62,9 @@ export default function LoginPage() {
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
 
-      if (role === "ADMIN") {
+      if (role.toLowerCase() === "admin") {
         navigate("/admin");
-      } else if (role === "SELLER") {
+      } else if (role.toLowerCase() === "seller") {
         navigate("/admin");
       } else {
         navigate("/products");

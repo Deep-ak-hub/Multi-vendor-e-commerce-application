@@ -25,8 +25,6 @@ const axiosInstance = axios.create({
   },
 });
 
-// API call
-
 // UI Component ------> AxiosConfig ------> Interceptors ------> internet(network)
 // Server Response ------> Interceptors ------> UI Component
 
