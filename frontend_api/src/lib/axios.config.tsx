@@ -16,7 +16,7 @@ export interface ApiError {
 
 const axiosInstance = axios.create({
   baseURL: AppConfig.apiBaseUrl,
-  timeout: 1200000, // usually 30 seconds but for onrender server using 120 seconds
+  timeout: 1200000,
   timeoutErrorMessage: "Server Time Out.....",
   responseType: "json",
   responseEncoding: "UTF-8",
